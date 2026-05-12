@@ -6,11 +6,11 @@
 //  JSON (backend's ApiResponse format: { statusCode, data, message }).
 // ──────────────────────────────────────────────────────────────
 
-const BASE_URL = "/api/v1";
+const BASE_URL = "https://flower-pot-sigma.vercel.app/api/v1";
 
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
-
+  console.log("url", url);
   const config = {
     credentials: "include",
     ...options,
@@ -80,8 +80,7 @@ export const productApi = {
 export const wishlistApi = {
   get: () => request("/wishlist"),
 
-  add: (productId) =>
-    request(`/wishlist/${productId}`, { method: "POST" }),
+  add: (productId) => request(`/wishlist/${productId}`, { method: "POST" }),
 
   remove: (productId) =>
     request(`/wishlist/${productId}`, { method: "DELETE" }),
