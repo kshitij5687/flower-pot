@@ -1,8 +1,9 @@
+import cookieParser from "cookie-parser";
 /// <reference path="./types/express.d.ts" />
 import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import path from "path";
+import cors from "cors";
+
 
 // ──────────────────────────────────────────────────────────────
 //  Express App Setup
@@ -35,7 +36,7 @@ app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     credentials: true, // Allow cookies to be sent cross-origin
-  })
+  }),
 );
 
 // Parse cookies from incoming requests
@@ -60,6 +61,14 @@ app.use("/api/v1/feedback", feedbackRoutes);
 
 // ── Health Check ──
 app.get("/api/v1/health", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "🌻 Flowerpot API is running!",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.get("/", (_req, res) => {
   res.status(200).json({
     success: true,
     message: "🌻 Flowerpot API is running!",
