@@ -16,6 +16,15 @@ const ensureDb = async () => {
 };
 
 export default async function handler(req: any, res: any) {
-  await ensureDb();
-  return app(req, res);
+  try {
+    await ensureDb();
+    return app(req, res);
+  } catch (error) {
+    console.error("❌ Vercel function error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
 }

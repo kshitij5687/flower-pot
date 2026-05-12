@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 // ──────────────────────────────────────────────────────────────
 //  connectDB — Establishes the MongoDB connection via Mongoose.
 //
@@ -9,17 +10,21 @@ import mongoose from "mongoose";
 // ──────────────────────────────────────────────────────────────
 
 const connectDB = async (): Promise<void> => {
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    throw new Error("MONGODB_URI is not defined in environment variables.");
+  }
+
   try {
-    const connectionInstance = await mongoose.connect(
-      process.env.MONGODB_URI as string
-    );
+    const connectionInstance = await mongoose.connect(uri);
 
     console.log(
-      `\n☘️  MongoDB connected! DB Host: ${connectionInstance.connection.host}`
+      `\n☘️  MongoDB connected! DB Host: ${connectionInstance.connection.host}`,
     );
   } catch (error) {
     console.error("❌ MongoDB connection FAILED:", error);
-    process.exit(1);
+    throw error;
   }
 };
 
