@@ -8,16 +8,27 @@
 
 const BASE_URL = "https://flower-pot-sigma.vercel.app/api/v1";
 
+const accessToken = document.cookie
+  .split("; ")
+  .find((row) => row.startsWith("accessToken="))
+  ?.split("=")[1];
+
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
   console.log("url", url);
   const config = {
     credentials: "include",
     ...options,
+
     headers: {
       ...(options.body instanceof FormData
         ? {}
         : { "Content-Type": "application/json" }),
+
+      ...(accessToken && {
+        Authorization: `Bearer ${accessToken}`,
+      }),
+
       ...options.headers,
     },
   };
