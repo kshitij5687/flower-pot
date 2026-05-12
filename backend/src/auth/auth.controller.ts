@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
-import { User } from "../user/user.model";
-import { ApiError } from "../utils/ApiError";
-import { ApiResponse } from "../utils/ApiResponse";
-import { asyncHandler } from "../utils/asyncHandler";
+
 import { uploadToCamelCloud } from "../utils/camelCloud";
+import { asyncHandler } from "../utils/asyncHandler";
+import { ApiResponse } from "../utils/ApiResponse";
+import { ApiError } from "../utils/ApiError";
+import { User } from "../user/user.model";
+
 
 // ──────────────────────────────────────────────────────────────
 //  Auth Controller
@@ -21,8 +23,8 @@ import { uploadToCamelCloud } from "../utils/camelCloud";
 // Cookie configuration — reused across signup/login
 const cookieOptions = {
   httpOnly: true, // JS cannot read the cookie (XSS protection)
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "strict" as const, // CSRF protection
+  secure: true, // Always use HTTPS in production/Vercel
+  sameSite: "none" as const, // Allow cross-site requests (frontend and backend on different domains)
   maxAge: Number(process.env.COOKIE_MAX_AGE) || 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
@@ -40,7 +42,7 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
   if (existingUser) {
     throw new ApiError(
       409,
-      "A user with this email already exists. Please login instead."
+      "A user with this email already exists. Please login instead.",
     );
   }
 
@@ -76,8 +78,8 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
       new ApiResponse(
         201,
         { user: createdUser },
-        "User registered successfully"
-      )
+        "User registered successfully",
+      ),
     );
 });
 
@@ -92,7 +94,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   // 2. Find user — we need password for comparison, so use `+password`
   const user = await User.findOne({ email: email.toLowerCase() }).select(
-    "+password"
+    "+password",
   );
   if (!user) {
     throw new ApiError(401, "Invalid email or password");
@@ -118,8 +120,8 @@ const login = asyncHandler(async (req: Request, res: Response) => {
       new ApiResponse(
         200,
         { user: loggedInUser },
-        "User logged in successfully"
-      )
+        "User logged in successfully",
+      ),
     );
 });
 
@@ -128,11 +130,7 @@ const logout = asyncHandler(async (_req: Request, res: Response) => {
   // Clear the access token cookie
   res
     .status(200)
-    .clearCookie("accessToken", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict" as const,
-    })
+    .clearCookie("accessToken", cookieOptions)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
