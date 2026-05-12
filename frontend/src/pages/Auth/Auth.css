@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════════════════
+   Auth Page Styles (Login & Signup)
+   ═══════════════════════════════════════════════════════════════ */
+
+.auth-page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-page__bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.auth-page__bg-orb--1 {
+  width: 500px;
+  height: 500px;
+  background: var(--color-primary-dark);
+  top: -100px;
+  right: -100px;
+}
+
+.auth-page__bg-orb--2 {
+  width: 300px;
+  height: 300px;
+  background: var(--color-accent-dark);
+  bottom: -50px;
+  left: -50px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  position: relative;
+  z-index: 1;
+  animation: scaleIn 400ms ease;
+}
+
+.auth-card__header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.auth-card__icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.auth-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.auth-card__subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.auth-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.auth-card__footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.auth-card__footer a {
+  color: var(--color-primary-light);
+  font-weight: 600;
+}
+
+.auth-card__footer a:hover {
+  color: var(--color-accent);
+}
+
+.auth-card__error {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-error);
+  font-size: 0.85rem;
+  text-align: center;
+}

@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════════
+   Feedback Page Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.feedback-page {
+  padding-bottom: var(--space-2xl);
+}
+
+.feedback-layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.feedback-form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  position: sticky;
+  top: 80px;
+  animation: fadeIn 400ms ease;
+}
+
+.feedback-form-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.feedback-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  animation: fadeInUp 400ms ease backwards;
+  transition: border-color var(--transition-fast);
+}
+
+.feedback-card:hover {
+  border-color: var(--border-default);
+}
+
+.feedback-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.feedback-card__date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.feedback-card__message {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.9rem;
+  margin-bottom: var(--space-sm);
+}
+
+.feedback-card__flower {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(74, 124, 89, 0.1);
+  border: 1px solid var(--border-subtle);
+  color: var(--color-primary-light);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .feedback-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-form-card {
+    position: static;
+  }
+}

@@ -1,0 +1,126 @@
+/* ═══════════════════════════════════════════════════════════════
+   Orders Page Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.orders-page {
+  padding-bottom: var(--space-2xl);
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.order-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  animation: fadeInUp 400ms ease backwards;
+  transition: border-color var(--transition-fast);
+}
+
+.order-card:hover {
+  border-color: var(--border-default);
+}
+
+.order-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.order-card__id {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.order-card__date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.order-card__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+}
+
+.order-item__image {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background: var(--bg-elevated);
+}
+
+.order-item__placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.order-item__name {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.order-item__qty {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.order-item__price {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  min-width: 80px;
+  text-align: right;
+}
+
+.order-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.order-card__address {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.order-card__address-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.order-card__total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent-light);
+}
