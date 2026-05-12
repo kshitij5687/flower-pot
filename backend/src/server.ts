@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 
 
-// Load environment variables first
 dotenv.config();
 
 import { app } from "./app";
@@ -9,44 +8,43 @@ import { connectDB } from "./config/db";
 
 const PORT = process.env.PORT || 5000;
 
-// Detect Vercel environment
 const isVercel = process.env.VERCEL === "1";
 
-// Function to start server locally
+// Cache DB connection
+let isConnected = false;
+
 const startServer = async () => {
   try {
-    // Connect MongoDB
-    await connectDB();
+    // Prevent reconnecting every invocation
+    if (!isConnected) {
+      await connectDB();
+      isConnected = true;
 
-    console.log("✅ MongoDB Connected");
+      console.log("✅ MongoDB Connected");
+    }
 
-    // IMPORTANT:
-    // Do NOT call app.listen() on Vercel
+    // Local development only
     if (!isVercel) {
       app.listen(PORT, () => {
-        console.log(`\n🚀 Server is running on port ${PORT}`);
-        console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
-        console.log(
-          `   Health check: http://localhost:${PORT}/api/v1/health\n`,
-        );
+        console.log(`🚀 Server running on port ${PORT}`);
       });
     }
   } catch (error) {
-    console.error("❌ Failed to start server:", error);
-    process.exit(1);
+    console.error("❌ Startup error:", error);
+
+    // NEVER process.exit on Vercel
+    if (!isVercel) {
+      process.exit(1);
+    }
   }
 };
 
 startServer();
 
-// Handle unhandled promise rejections
-process.on("unhandledRejection", (reason: any) => {
+// Handle unhandled rejections safely
+process.on("unhandledRejection", (reason) => {
   console.error("🔥 UNHANDLED REJECTION:", reason);
-
-  if (!isVercel) {
-    process.exit(1);
-  }
 });
 
-// Export app for Vercel serverless
+// Export for Vercel
 export default app;
