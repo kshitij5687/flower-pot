@@ -31,21 +31,12 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "../public")));
 
-const allowedOrigins = process.env.CORS_ORIGIN?.split(",").map((origin) =>
-  origin.trim(),
-) || ["http://localhost:3000"];
-
-// Enable CORS with credentials (cookies need this)
+// Enable CORS with all origins while still allowing cookies.
+// When credentials: true is enabled, CORS reflects the request origin.
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin, like server-to-server or same-origin
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("CORS policy does not allow this origin."));
-    },
-    credentials: true, // Allow cookies to be sent cross-origin
+    origin: true,
+    credentials: true,
   }),
 );
 
