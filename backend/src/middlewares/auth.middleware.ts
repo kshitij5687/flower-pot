@@ -1,8 +1,11 @@
 import { Response, NextFunction, Request } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../user/user.model";
-import { ApiError } from "../utils/ApiError";
+
 import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/ApiError";
+import { User } from "../user/user.model";
+import { requireEnv } from "../utils/env";
+
 
 // ──────────────────────────────────────────────────────────────
 //  Auth Middleware — Protects routes that need a logged-in user.
@@ -35,10 +38,8 @@ const verifyJWT = asyncHandler(
     }
 
     // 2. Verify the token
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as JwtPayload;
+    const jwtSecret = requireEnv("JWT_SECRET");
+    const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
 
     // 3. Find user by decoded ID, exclude password
     const user = await User.findById(decoded._id).select("-password");
@@ -51,7 +52,7 @@ const verifyJWT = asyncHandler(
     req.user = user;
 
     next();
-  }
+  },
 );
 
 export { verifyJWT };

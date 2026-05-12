@@ -1,6 +1,9 @@
 import mongoose, { Schema, Document } from "mongoose";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+
+import { requireEnv } from "../utils/env";
+
 
 // ──────────────────────────────────────────────────────────────
 //  User Model
@@ -76,7 +79,7 @@ const userSchema = new Schema<IUser>(
   },
   {
     timestamps: true, // Adds createdAt and updatedAt automatically
-  }
+  },
 );
 
 // ── Pre-save Hook: Hash password before saving ──
@@ -89,23 +92,25 @@ userSchema.pre("save", async function () {
 
 // ── Instance Method: Compare plaintext password with hashed ──
 userSchema.methods.isPasswordCorrect = async function (
-  password: string
+  password: string,
 ): Promise<boolean> {
   return await bcrypt.compare(password, this.password);
 };
 
 // ── Instance Method: Generate a JWT ──
 userSchema.methods.generateAccessToken = function (): string {
+  const jwtSecret = requireEnv("JWT_SECRET");
+
   return jwt.sign(
     {
       _id: this._id,
       email: this.email,
       role: this.role,
     },
-    process.env.JWT_SECRET as jwt.Secret,
+    jwtSecret,
     {
       expiresIn: (process.env.JWT_EXPIRY || "7d") as string,
-    } as jwt.SignOptions
+    } as jwt.SignOptions,
   );
 };
 
